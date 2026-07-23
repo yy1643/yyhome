@@ -4,12 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YY · 视频创作者主页</title>
-  <!-- 字体预连接 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- 样式表 -->
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Dock 导航 — a 标签适配（补充 styles.css 中 .dock button 的样式） */
+    .dock a {
+      border: 0;
+      background: transparent;
+      min-width: 74px;
+      height: 44px;
+      padding: 0 13px;
+      border-radius: 13px;
+      color: #71808d;
+      font: 600 12px inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: .25s;
+    }
+    .dock a svg {
+      width: 17px;
+      height: 17px;
+      flex: none;
+    }
+    .dock a.active {
+      color: #fff;
+      background: #263b55;
+      box-shadow: 0 5px 12px rgba(38, 59, 85, .23);
+    }
+    .dock a:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, .75);
+    }
+    .dock a.active:hover {
+      background: #263b55;
+    }
+    @media (max-width: 760px) {
+      .dock a {
+        min-width: 0;
+        flex: 1;
+        padding: 0 7px;
+        font-size: 11px;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="shell">
@@ -39,8 +82,8 @@
             <span class="tag">✎ 故事表达</span>
           </div>
           <div class="action-row">
-            <button class="primary" onclick="showView('contact',document.querySelector('[data-view=contact]'))">联系我 ↗</button>
-            <button class="secondary" onclick="showView('works',document.querySelector('[data-view=works]'))">查看作品 →</button>
+            <a href="contact.html" class="primary">联系我 ↗</a>
+            <a href="works.html" class="secondary">查看作品 →</a>
           </div>
         </div>
       </article>
@@ -54,7 +97,7 @@
     <!-- 正在进行 -->
     <div class="section-title">
       <h2>正在进行</h2>
-      <a href="#">全部作品 →</a>
+      <a href="works.html">全部作品 →</a>
     </div>
     <section class="grid">
       <article class="card mini">
@@ -120,209 +163,28 @@
         <span class="event-time">5 天前</span>
       </div>
     </section>
-
-    <!-- 作品集（隐藏视图） -->
-    <section class="view" id="works">
-      <div class="section-title">
-        <h2>作品集</h2>
-        <a class="back" onclick="showView('home')">返回首页</a>
-      </div>
-      <div class="detail-grid">
-        <article class="card detail-card">
-          <div class="project-icon">◉</div>
-          <h3>街头采访 · 杭州篇</h3>
-          <p>用一台手机记录陌生人的一天，收获 823 万次播放。</p>
-        </article>
-        <article class="card detail-card app-card" onclick="showView('app-detail')">
-          <div class="project-icon" style="background:#e8f0ff;color:#4a7de8">◈</div>
-          <h3>YY 音频助手</h3>
-          <p>我的第一款 AI 软件 · 视频一键转音频，提取到 U 盘</p>
-        </article>
-        <article class="card detail-card">
-          <div class="project-icon" style="background:#e7f5ef;color:#58a27f">✺</div>
-          <h3>手机摄影手册</h3>
-          <p>整理 30 个构图与用光技巧，帮助新手快速上手。</p>
-        </article>
-        <article class="card detail-card">
-          <div class="project-icon" style="background:#f1eaff;color:#866bc4">⌁</div>
-          <h3>城市声音计划</h3>
-          <p>收集城市环境声，做成一组 60 秒声音短片。</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- 联系我（隐藏视图） -->
-    <section class="view" id="contact">
-      <div class="section-title">
-        <h2>联系我</h2>
-        <a class="back" onclick="showView('home')">返回首页</a>
-      </div>
-      <div class="card detail-card">
-        <p style="margin-bottom:16px">有拍摄、剪辑或品牌合作想法，欢迎来聊聊。</p>
-        <div class="contact-list">
-          <a class="contact-item" href="javascript:copyText('17774548253')">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.6 3C4.95 3 2 5.45 2 8.48c0 1.7.93 3.23 2.39 4.24l-.58 2.04 2.3-1.18c.79.23 1.63.36 2.49.36.28 0 .55-.02.82-.05a5.2 5.2 0 0 1-.25-1.6c0-3.16 3.03-5.73 6.77-5.73.18 0 .36.01.54.02C15.48 4.5 12.22 3 8.6 3Zm-2.2 3.1a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8Zm4.4 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8Z"/><path d="M22 12.3c0-2.62-2.57-4.74-5.74-4.74s-5.74 2.12-5.74 4.74 2.57 4.74 5.74 4.74c.68 0 1.33-.1 1.93-.28l2.04 1.07-.5-1.8C21.12 15.16 22 13.8 22 12.3Zm-7.63-.86a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5Zm3.78 0a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5Z"/></svg>
-            </span>
-            <div>
-              <b>微信</b>
-              <span>17774548253 · 点击复制</span>
-            </div>
-          </a>
-          <a class="contact-item" href="mailto:yy1643558990@gmail.com">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-            </span>
-            <div>
-              <b>邮箱</b>
-              <span>yy1643558990@gmail.com</span>
-            </div>
-          </a>
-          <a class="contact-item" href="https://space.bilibili.com/35623313" target="_blank" rel="noopener">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="m8 2 3 4m5-4-3 4M8 11v4m8-4v4"/></svg>
-            </span>
-            <div>
-              <b>Bilibili</b>
-              <span>查看完整视频作品 · 新窗口打开</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- App 详情（隐藏视图） -->
-    <section class="view" id="app-detail">
-      <div class="section-title">
-        <h2>YY 音频助手</h2>
-        <a class="back" onclick="showView('works')">← 返回作品集</a>
-      </div>
-
-      <!-- App 头部横幅 -->
-      <div class="card app-hero">
-        <div class="app-icon-large">
-          <span class="app-icon-emoji">♪</span>
-        </div>
-        <h1 class="app-title">YY 音频助手</h1>
-        <p class="app-subtitle">视频一键转音频 · 中老年朋友的贴心工具</p>
-        <p class="app-desc">
-          这是我用 AI 开发的第一款软件。它的目标很简单——<strong>帮助不熟悉手机操作的中老年朋友，把视频里的声音提取出来，保存到 U 盘</strong>。
-          不用学复杂操作，插上 U 盘，选好视频，一键就能转成音频文件。
-        </p>
-        <div class="app-download-row">
-<a class="app-download-btn" href="https://download.164355.xyz/yyapp.apk" download>
-
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            下载 APK
-          </a>
-          <span class="app-version">v1.0 · Android</span>
-        </div>
-      </div>
-
-      <!-- 功能特点 -->
-      <div class="section-title"><h2>功能特点</h2></div>
-      <div class="app-features">
-        <div class="card app-feature">
-          <div class="app-feature-icon">🎬</div>
-          <h3>视频转音频</h3>
-          <p>支持常见视频格式，一键提取纯净音频，保留原声质量。</p>
-        </div>
-        <div class="card app-feature">
-          <div class="app-feature-icon">💾</div>
-          <h3>一键存 U 盘</h3>
-          <p>插上 U 盘自动识别，转换后直接保存，无需手动复制。</p>
-        </div>
-        <div class="card app-feature">
-          <div class="app-feature-icon">👴</div>
-          <h3>大字大按钮</h3>
-          <p>专为中老年人优化界面，字大清晰，操作步骤简单明了。</p>
-        </div>
-        <div class="card app-feature">
-          <div class="app-feature-icon">📱</div>
-          <h3>轻量小巧</h3>
-          <p>安装包不到 80MB，不占空间，老手机也能流畅运行。</p>
-        </div>
-      </div>
-
-      <!-- 使用说明 -->
-      <div class="section-title"><h2>如何使用</h2></div>
-      <div class="card app-steps">
-        <div class="step">
-          <span class="step-num">1</span>
-          <div><strong>下载 APK</strong><span>点击上方按钮下载安装包</span></div>
-        </div>
-        <div class="step">
-          <span class="step-num">2</span>
-          <div><strong>安装到手机</strong><span>允许「未知来源应用」安装</span></div>
-        </div>
-        <div class="step">
-          <span class="step-num">3</span>
-          <div><strong>插入 U 盘</strong><span>通过 OTG 转接头连接 U 盘</span></div>
-        </div>
-        <div class="step">
-          <span class="step-num">4</span>
-          <div><strong>选择视频</strong><span>点「选择视频」选取要转换的文件</span></div>
-        </div>
-        <div class="step">
-          <span class="step-num">5</span>
-          <div><strong>一键导出</strong><span>点「开始转换」，音频自动保存到 U 盘</span></div>
-        </div>
-      </div>
-
-      <!-- 底部联系 -->
-      <div class="section-title"><h2>遇到问题？</h2></div>
-      <div class="card app-help">
-        <p>有任何使用问题或建议，欢迎通过<a href="javascript:showView('contact')">联系我</a>页面与我沟通。</p>
-      </div>
-    </section>
-
-    <!-- 一些想法（隐藏视图） -->
-    <section class="view" id="ideas">
-      <div class="section-title">
-        <h2>一些想法</h2>
-        <a class="back" onclick="showView('home')">返回首页</a>
-      </div>
-      <div class="grid">
-        <article class="card idea">
-          <time>2026.03.18</time>
-          <h3>先拍下来，再想清楚</h3>
-          <p>灵感往往出现在按下录制键之后。先开始，答案会在过程中浮现。</p>
-        </article>
-        <article class="card idea">
-          <time>2026.03.09</time>
-          <h3>留一点空白给观众</h3>
-          <p>剪辑不是把信息塞满，而是给情绪留出呼吸的空间。</p>
-        </article>
-        <article class="card idea">
-          <time>2026.02.26</time>
-          <h3>手机也值得认真对待</h3>
-          <p>设备只是工具，真正决定画面质感的是观察、光线和耐心。</p>
-        </article>
-      </div>
-    </section>
   </main>
 
   <!-- 底部 Dock 导航 -->
   <nav class="dock" aria-label="页面导航">
-    <button class="active" data-view="home" aria-label="首页" onclick="showView('home',this)">
+    <a href="index.html" class="active" aria-label="首页">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 9-8 9 8v9H3z"/><path d="M9 20v-6h6v6"/></svg>
       <span>首页</span>
-    </button>
-    <button data-view="works" aria-label="作品集" onclick="showView('works',this)">
+    </a>
+    <a href="works.html" aria-label="作品集">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>
       <span>作品</span>
-    </button>
-    <button data-view="ideas" aria-label="一些想法" onclick="showView('ideas',this)">
+    </a>
+    <a href="ideas.html" aria-label="一些想法">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-5 3h4"/><path d="M8.3 15.5A7 7 0 1 1 15.7 15.5C15 16 15 17 15 18H9c0-1 0-2-.7-2.5Z"/></svg>
       <span>想法</span>
-    </button>
-    <button data-view="contact" aria-label="联系我" onclick="showView('contact',this)">
+    </a>
+    <a href="contact.html" aria-label="联系我">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/></svg>
       <span>联系</span>
-    </button>
+    </a>
   </nav>
 
-  <!-- 脚本 -->
   <script src="script.js"></script>
 </body>
 </html>
