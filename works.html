@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YY · 作品集</title>
+  <!-- 字体预连接 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- 样式表 -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* 作品集独立页面专属样式 */
+    a.card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .works-page {
+      animation: rise .65s both;
+    }
+    .back-link {
+      font-size: 12px;
+      color: #61798e;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .back-link:hover {
+      color: #263b55;
+    }
+    body.night .back-link {
+      color: #9eb3c8;
+    }
+    body.night .back-link:hover {
+      color: #edf3f8;
+    }
+    /* Dock 导航 a 标签样式（与 styles.css 中 .dock button 一致） */
+    .dock a {
+      border: 0;
+      background: transparent;
+      min-width: 74px;
+      height: 44px;
+      padding: 0 13px;
+      border-radius: 13px;
+      color: #71808d;
+      font: 600 12px inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      transition: .25s;
+      text-decoration: none;
+    }
+    .dock a svg {
+      width: 17px;
+      height: 17px;
+      flex: none;
+    }
+    .dock a.active {
+      color: #fff;
+      background: #263b55;
+      box-shadow: 0 5px 12px rgba(38, 59, 85, .23);
+    }
+    .dock a:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, .75);
+    }
+    .dock a.active:hover {
+      background: #263b55;
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">YY</span>
+        <span>YY / VISUALS</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" aria-label="切换主题" onclick="document.body.classList.toggle('night')">◐</button>
+        <button class="icon-btn" aria-label="更多">···</button>
+      </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <div class="section-title works-page">
+      <h2>作品集</h2>
+      <a class="back-link" href="index.html">← 返回首页</a>
+    </div>
+
+    <!-- 作品卡片网格 -->
+    <section class="detail-grid works-page">
+      <!-- 街头采访·杭州篇 -->
+      <article class="card detail-card">
+        <div class="project-icon">◉</div>
+        <h3>街头采访 · 杭州篇</h3>
+        <p>用一台手机记录陌生人的一天，收获 823 万次播放。</p>
+      </article>
+
+      <!-- YY 音频助手（可点击跳转 app.html） -->
+      <a href="app.html" class="card detail-card app-card">
+        <div class="project-icon" style="background:#e8f0ff;color:#4a7de8">◈</div>
+        <h3>YY 音频助手</h3>
+        <p>我的第一款 AI 软件 · 视频一键转音频，提取到 U 盘</p>
+      </a>
+
+      <!-- 手机摄影手册 -->
+      <article class="card detail-card">
+        <div class="project-icon" style="background:#e7f5ef;color:#58a27f">✺</div>
+        <h3>手机摄影手册</h3>
+        <p>整理 30 个构图与用光技巧，帮助新手快速上手。</p>
+      </article>
+
+      <!-- 城市声音计划 -->
+      <article class="card detail-card">
+        <div class="project-icon" style="background:#f1eaff;color:#866bc4">⌁</div>
+        <h3>城市声音计划</h3>
+        <p>收集城市环境声，做成一组 60 秒声音短片。</p>
+      </article>
+    </section>
+  </main>
+
+  <!-- 底部 Dock 导航（a 标签，作品按钮 active） -->
+  <nav class="dock" aria-label="页面导航">
+    <a class="dock-btn" href="index.html" aria-label="首页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 9-8 9 8v9H3z"/><path d="M9 20v-6h6v6"/></svg>
+      <span>首页</span>
+    </a>
+    <a class="dock-btn active" href="works.html" aria-label="作品集">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>
+      <span>作品</span>
+    </a>
+    <a class="dock-btn" href="index.html#ideas" aria-label="一些想法">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-5 3h4"/><path d="M8.3 15.5A7 7 0 1 1 15.7 15.5C15 16 15 17 15 18H9c0-1 0-2-.7-2.5Z"/></svg>
+      <span>想法</span>
+    </a>
+    <a class="dock-btn" href="index.html#contact" aria-label="联系我">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/></svg>
+      <span>联系</span>
+    </a>
+  </nav>
+
+  <!-- 脚本 -->
+  <script src="script.js"></script>
+</body>
+</html>

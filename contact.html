@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YY · 联系我</title>
+  <!-- 字体预连接 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- 样式表 -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Dock 中 a 标签样式与 button 保持一致 */
+    .dock a {
+      border: 0;
+      background: transparent;
+      min-width: 74px;
+      height: 44px;
+      padding: 0 13px;
+      border-radius: 13px;
+      color: #71808d;
+      font: 600 12px inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: .25s;
+    }
+    .dock a svg {
+      width: 17px;
+      height: 17px;
+      flex: none;
+    }
+    .dock a.active {
+      color: #fff;
+      background: #263b55;
+      box-shadow: 0 5px 12px rgba(38, 59, 85, .23);
+    }
+    .dock a:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, .75);
+    }
+    .dock a.active:hover {
+      background: #263b55;
+    }
+    @media (max-width: 760px) {
+      .dock a {
+        min-width: 0;
+        flex: 1;
+        padding: 0 7px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">YY</span>
+        <span>YY / VISUALS</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" aria-label="切换主题" onclick="document.body.classList.toggle('night')">◐</button>
+        <button class="icon-btn" aria-label="更多">···</button>
+      </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <div class="section-title">
+      <h2>联系我</h2>
+      <a class="back" href="index.html">← 返回首页</a>
+    </div>
+
+    <!-- 联系卡片 -->
+    <section class="card detail-card">
+      <p style="margin-bottom:16px">有拍摄、剪辑或品牌合作想法，欢迎来聊聊。</p>
+      <div class="contact-list">
+        <a class="contact-item" href="javascript:copyText('17774548253')">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.6 3C4.95 3 2 5.45 2 8.48c0 1.7.93 3.23 2.39 4.24l-.58 2.04 2.3-1.18c.79.23 1.63.36 2.49.36.28 0 .55-.02.82-.05a5.2 5.2 0 0 1-.25-1.6c0-3.16 3.03-5.73 6.77-5.73.18 0 .36.01.54.02C15.48 4.5 12.22 3 8.6 3Zm-2.2 3.1a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8Zm4.4 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8Z"/><path d="M22 12.3c0-2.62-2.57-4.74-5.74-4.74s-5.74 2.12-5.74 4.74 2.57 4.74 5.74 4.74c.68 0 1.33-.1 1.93-.28l2.04 1.07-.5-1.8C21.12 15.16 22 13.8 22 12.3Zm-7.63-.86a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5Zm3.78 0a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5Z"/></svg>
+          </span>
+          <div>
+            <b>微信</b>
+            <span>17774548253 · 点击复制</span>
+          </div>
+        </a>
+        <a class="contact-item" href="mailto:yy1643558990@gmail.com">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          </span>
+          <div>
+            <b>邮箱</b>
+            <span>yy1643558990@gmail.com</span>
+          </div>
+        </a>
+        <a class="contact-item" href="https://space.bilibili.com/35623313" target="_blank" rel="noopener">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="m8 2 3 4m5-4-3 4M8 11v4m8-4v4"/></svg>
+          </span>
+          <div>
+            <b>Bilibili</b>
+            <span>查看完整视频作品 · 新窗口打开</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 底部 Dock 导航 -->
+  <nav class="dock" aria-label="页面导航">
+    <a class="dock-link" href="index.html" aria-label="首页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 9-8 9 8v9H3z"/><path d="M9 20v-6h6v6"/></svg>
+      <span>首页</span>
+    </a>
+    <a class="dock-link" href="index.html" aria-label="作品集">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>
+      <span>作品</span>
+    </a>
+    <a class="dock-link" href="index.html" aria-label="一些想法">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-5 3h4"/><path d="M8.3 15.5A7 7 0 1 1 15.7 15.5C15 16 15 17 15 18H9c0-1 0-2-.7-2.5Z"/></svg>
+      <span>想法</span>
+    </a>
+    <a class="dock-link active" href="contact.html" aria-label="联系我">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/></svg>
+      <span>联系</span>
+    </a>
+  </nav>
+
+  <!-- 脚本 -->
+  <script src="script.js"></script>
+</body>
+</html>

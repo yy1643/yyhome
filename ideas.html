@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YY · 一些想法</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Dock 导航 — a 标签适配（与 index.html 一致） */
+    .dock a {
+      border: 0;
+      background: transparent;
+      min-width: 74px;
+      height: 44px;
+      padding: 0 13px;
+      border-radius: 13px;
+      color: #71808d;
+      font: 600 12px inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: .25s;
+    }
+    .dock a svg {
+      width: 17px;
+      height: 17px;
+      flex: none;
+    }
+    .dock a.active {
+      color: #fff;
+      background: #263b55;
+      box-shadow: 0 5px 12px rgba(38, 59, 85, .23);
+    }
+    .dock a:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, .75);
+    }
+    .dock a.active:hover {
+      background: #263b55;
+    }
+    @media (max-width: 760px) {
+      .dock a {
+        min-width: 0;
+        flex: 1;
+        padding: 0 7px;
+        font-size: 11px;
+      }
+    }
+    /* 想法页面专属 */
+    .ideas-header {
+      margin-bottom: 22px;
+      animation: rise .65s both;
+    }
+    .ideas-header h1 {
+      font-size: 32px;
+      margin: 0 0 6px;
+      letter-spacing: -.05em;
+    }
+    .ideas-header .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #61798e;
+      font-size: 13px;
+      text-decoration: none;
+      transition: .25s;
+    }
+    .ideas-header .back-link:hover {
+      color: var(--ink);
+      transform: translateX(-3px);
+    }
+    .ideas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .idea-card {
+      padding: 24px;
+      animation: rise .75s both;
+      transition: .3s;
+      cursor: default;
+    }
+    .idea-card:nth-child(2) {
+      animation-delay: .08s;
+    }
+    .idea-card:nth-child(3) {
+      animation-delay: .16s;
+    }
+    .idea-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 50px rgba(47, 64, 84, .18);
+    }
+    .idea-card .idea-date {
+      font-size: 11px;
+      color: #7b8b98;
+      letter-spacing: .02em;
+    }
+    .idea-card .idea-icon {
+      display: block;
+      font-size: 28px;
+      margin-top: 16px;
+      margin-bottom: 10px;
+    }
+    .idea-card h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+      letter-spacing: -.03em;
+    }
+    .idea-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+    @media (max-width: 760px) {
+      .ideas-grid {
+        grid-template-columns: 1fr;
+      }
+      .ideas-header h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">YY</span>
+        <span>YY / VISUALS</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" aria-label="切换主题" onclick="document.body.classList.toggle('night')">◐</button>
+        <button class="icon-btn" aria-label="更多">···</button>
+      </div>
+    </header>
+
+    <!-- 页面标题 + 返回首页 -->
+    <div class="ideas-header">
+      <h1>一些想法</h1>
+      <a href="index.html" class="back-link">← 返回首页</a>
+    </div>
+
+    <!-- 想法卡片网格 -->
+    <section class="ideas-grid">
+      <article class="card idea-card">
+        <span class="idea-date">2026.03.18</span>
+        <span class="idea-icon">💡</span>
+        <h3>先拍下来，再想清楚</h3>
+        <p>灵感往往出现在按下录制键之后。先开始，答案会在过程中浮现。</p>
+      </article>
+
+      <article class="card idea-card">
+        <span class="idea-date">2026.03.09</span>
+        <span class="idea-icon">◻</span>
+        <h3>留一点空白给观众</h3>
+        <p>剪辑不是把信息塞满，而是给情绪留出呼吸的空间。</p>
+      </article>
+
+      <article class="card idea-card">
+        <span class="idea-date">2026.02.26</span>
+        <span class="idea-icon">📱</span>
+        <h3>手机也值得认真对待</h3>
+        <p>设备只是工具，真正决定画面质感的是观察、光线和耐心。</p>
+      </article>
+    </section>
+  </main>
+
+  <!-- 底部 Dock 导航 -->
+  <nav class="dock" aria-label="页面导航">
+    <a href="index.html" aria-label="首页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 9-8 9 8v9H3z"/><path d="M9 20v-6h6v6"/></svg>
+      <span>首页</span>
+    </a>
+    <a href="works.html" aria-label="作品集">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>
+      <span>作品</span>
+    </a>
+    <a href="ideas.html" class="active" aria-label="一些想法">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6m-5 3h4"/><path d="M8.3 15.5A7 7 0 1 1 15.7 15.5C15 16 15 17 15 18H9c0-1 0-2-.7-2.5Z"/></svg>
+      <span>想法</span>
+    </a>
+    <a href="contact.html" aria-label="联系我">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/></svg>
+      <span>联系</span>
+    </a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
