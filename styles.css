@@ -443,7 +443,8 @@ body::after {
   z-index: 3;
 }
 
-.dock button {
+.dock button,
+.dock a {
   border: 0;
   background: transparent;
   min-width: 74px;
@@ -458,26 +459,31 @@ body::after {
   gap: 7px;
   cursor: pointer;
   transition: .25s;
+  text-decoration: none;
 }
 
-.dock button svg {
+.dock button svg,
+.dock a svg {
   width: 17px;
   height: 17px;
   flex: none;
 }
 
-.dock button.active {
+.dock button.active,
+.dock a.active {
   color: #fff;
   background: #263b55;
   box-shadow: 0 5px 12px rgba(38, 59, 85, .23);
 }
 
-.dock button:hover {
+.dock button:hover,
+.dock a:hover {
   transform: translateY(-3px);
   background: rgba(255, 255, 255, .75);
 }
 
-.dock button.active:hover {
+.dock button.active:hover,
+.dock a.active:hover {
   background: #263b55;
 }
 
