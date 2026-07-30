@@ -70,6 +70,7 @@ async function run() {
     remote: REMOTE,
     ref: BRANCH,
     url: remoteUrl,
+    force: true,
     onAuth: () => ({ username: TOKEN, password: '' }),
     onMessage: (msg) => console.log(`   > ${msg}`),
   });
