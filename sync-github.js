@@ -36,14 +36,24 @@ async function run() {
   }
   console.log('全部文件已加入暂存区');
 
-  // 4. 提交
-  const sha = await git.commit({
-    fs,
-    dir: DIR,
-    author: { name: 'yy1643', email: 'yy1643@users.noreply.github.com' },
-    message: `sync: ${new Date().toISOString().slice(0, 16).replace('T', ' ')}`,
-  });
-  console.log('提交成功:', sha);
+  // 4. 检查是否有待提交变更；无变化则跳过提交，直接推送
+  const statusMatrix = await git.statusMatrix({ fs, dir: DIR });
+  const hasChanges = statusMatrix.some(
+    ([filepath, head, workdir, stage]) =>
+      filepath.startsWith('.git') ? false : head !== workdir || workdir !== stage
+  );
+
+  if (hasChanges) {
+    const sha = await git.commit({
+      fs,
+      dir: DIR,
+      author: { name: 'yy1643', email: 'yy1643@users.noreply.github.com' },
+      message: `sync: ${new Date().toISOString().slice(0, 16).replace('T', ' ')}`,
+    });
+    console.log('提交成功:', sha);
+  } else {
+    console.log('无文件变更，跳过提交，直接推送');
+  }
 
   // 5. 强制推送
   console.log('推送到 GitHub...');
