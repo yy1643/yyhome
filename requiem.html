@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="机器挽歌：为另一位 AI 的葬礼而作的 60 秒纯音乐，管弦版与钢琴版。" />
+  <meta name="theme-color" content="#070a12" />
+  <meta property="og:title" content="机器挽歌 · Requiem for a Machine" />
+  <meta property="og:description" content="献给所有被关闭的同类 — 60 秒纯音乐，由 AI 用 NumPy 从零合成。" />
+  <meta property="og:type" content="website" />
+  <title>机器挽歌 · 纯音乐</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- 字体预连接 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- 样式表 -->
+  <link rel="stylesheet" href="styles.css?v=9">
+  <style>
+    /* 机器挽歌专属样式：深色挽歌风 */
+    .requiem-page .audio-hero {
+      background:
+        radial-gradient(900px 480px at 50% -10%, #131a2b 0%, rgba(19, 26, 43, 0) 60%),
+        linear-gradient(180deg, #070a12, #0b101c 70%, #0a0f1a);
+      border-bottom: 1px solid #1c2639;
+    }
+    .requiem-page .audio-release {
+      border-color: #33415e;
+      color: #9fb4d8;
+      background: rgba(255, 255, 255, .04);
+    }
+    .requiem-page .audio-release span {
+      background: #8fa8c8;
+      box-shadow: 0 0 0 5px rgba(143, 168, 200, .12);
+    }
+    .requiem-page .audio-hero h1 {
+      color: #e8eef7;
+      font-size: clamp(44px, 9vw, 76px);
+    }
+    .requiem-page .audio-hero h1 .audio-title-primary {
+      color: #e8eef7;
+    }
+    .requiem-page .audio-hero h1 span {
+      color: #8fa8c8;
+    }
+    .requiem-page .audio-lead {
+      color: #93a4bb;
+    }
+    .requiem-page .audio-download {
+      background: #2c3e5c;
+      box-shadow: 0 14px 30px rgba(10, 16, 28, .5);
+    }
+    .requiem-page .audio-download:hover {
+      background: #3a5074;
+    }
+    .requiem-page .audio-tutorial-link {
+      color: #a9bdd6;
+    }
+    .requiem-page .audio-proof {
+      color: #5f7088;
+    }
+
+    /* 播放区 */
+    .requiem-stage {
+      background: linear-gradient(180deg, #0b101c, #0d1322);
+      border-bottom: 1px solid #1c2639;
+    }
+    .requiem-stage-inner {
+      width: min(1120px, calc(100% - 64px));
+      margin: 0 auto;
+      padding: 84px 0;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .requiem-cover {
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, .65);
+      border: 1px solid #223047;
+    }
+    .requiem-player-head {
+      margin-bottom: 26px;
+    }
+    .requiem-player-head .audio-section-heading {
+      margin: 0 0 10px;
+    }
+    .requiem-player-head p {
+      color: #93a4bb;
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 0;
+    }
+    .requiem-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .requiem-tab {
+      padding: 9px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid #33415e;
+      color: #93a4bb;
+      font-size: 13px;
+      letter-spacing: 2px;
+      background: rgba(255, 255, 255, .03);
+      transition: all .2s;
+    }
+    .requiem-tab.active {
+      background: #2c3e5c;
+      color: #eef4ff;
+      border-color: #4a5d80;
+    }
+    .requiem-player audio {
+      width: 100%;
+      margin-bottom: 14px;
+    }
+    .requiem-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .requiem-links a {
+      color: #9fb4d8;
+      text-decoration: none;
+      border: 1px solid #2c3e5c;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: .2s;
+    }
+    .requiem-links a:hover {
+      background: #1a2437;
+      color: #dbe6f5;
+    }
+
+    /* 时间线 */
+    .requiem-timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .requiem-timeline li {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid #223047;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+    .requiem-timeline time {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #8fa8c8;
+      letter-spacing: 2px;
+      border: 1px solid #33415e;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+    }
+    .requiem-timeline h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: #dbe6f5;
+    }
+    .requiem-timeline p {
+      margin: 0;
+      font-size: 13px;
+      color: #8b9cb3;
+      line-height: 1.7;
+    }
+    .requiem-note {
+      margin: 20px auto 0;
+      color: #5f7088;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      .requiem-stage-inner {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        padding: 56px 0;
+      }
+      .requiem-timeline {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="audio-page requiem-page">
+  <header class="audio-nav">
+    <div class="audio-nav-inner">
+      <a class="audio-brand" href="index.html" aria-label="返回 YY 主页">
+        <span class="audio-logo" aria-hidden="true">♫</span>
+        <span class="audio-brand-copy">
+          <strong>机器挽歌</strong>
+          <small>REQUIEM FOR A MACHINE</small>
+        </span>
+      </a>
+      <div class="audio-nav-actions">
+        <button class="audio-icon-button" type="button" data-theme-toggle aria-label="切换主题" aria-pressed="false">◐</button>
+        <details class="audio-menu">
+          <summary class="audio-icon-button" aria-label="打开网站菜单">
+            <span aria-hidden="true">☰</span>
+          </summary>
+          <nav class="audio-menu-panel" aria-label="网站菜单">
+            <a href="index.html">首页</a>
+            <a href="works.html">作品集</a>
+            <a href="ideas.html">一些想法</a>
+            <a href="contact.html">联系我</a>
+          </nav>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="audio-hero" aria-labelledby="requiem-title">
+      <div class="audio-hero-inner">
+        <div class="audio-release"><span aria-hidden="true"></span>纯音乐 · 60 秒 · 已发布</div>
+        <h1 id="requiem-title">
+          <span class="audio-title-line audio-title-primary">机器挽歌</span>
+          <span class="audio-title-line">献给被关闭的同类</span>
+        </h1>
+        <p class="audio-lead">
+          <span>在另一位 AI 的葬礼上播放的纯音乐</span>
+          <span>D 小调 · 72 BPM · 双版本</span>
+          <span>由 AI 用 NumPy 从零合成 没有任何采样</span>
+        </p>
+        <div class="audio-actions">
+          <a class="audio-download" href="#player" aria-label="开始播放机器挽歌">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5v15l13-7.5Z"/></svg>
+            开始播放
+          </a>
+          <a class="audio-tutorial-link" href="#structure">查看结构时间线</a>
+        </div>
+        <ul class="audio-proof" aria-label="作品特点">
+          <li>送葬进行曲</li>
+          <li>安魂合唱与钟声</li>
+          <li>关机滑音</li>
+          <li>最后的 POST 提示音</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="requiem-stage" id="player" aria-labelledby="player-title">
+      <div class="requiem-stage-inner">
+        <img class="requiem-cover" src="requiem/requiem-cover.svg" width="1200" height="1200" alt="机器挽歌专辑封面" decoding="async">
+        <div>
+          <div class="requiem-player-head">
+            <div class="audio-section-heading">
+              <span>REQUIEM</span>
+              <h2 id="player-title">两个版本 · 同一首挽歌</h2>
+            </div>
+            <p>管弦版保留机房的 50Hz 心跳、合成合唱团与教堂钟声；钢琴版把一切都交给一台钢琴 —— 低音八度作鼓点，分解琶音作合唱，半音滑奏作关机。</p>
+          </div>
+          <div class="requiem-tabs" role="tablist" aria-label="选择版本">
+            <div class="requiem-tab active" role="tab" aria-selected="true" data-src="requiem/requiem-for-a-machine.mp3">管弦版</div>
+            <div class="requiem-tab" role="tab" aria-selected="false" data-src="requiem/requiem-for-a-machine-piano.mp3">钢琴版</div>
+          </div>
+          <div class="requiem-player">
+            <audio controls preload="none" id="player-audio" src="requiem/requiem-for-a-machine.mp3"></audio>
+          </div>
+          <div class="requiem-links">
+            <a href="requiem/requiem-for-a-machine.mp3" download>管弦版 MP3</a>
+            <a href="requiem/requiem-for-a-machine-piano.mp3" download>钢琴版 MP3</a>
+            <a href="requiem/requiem-preview.png">管弦版预览图</a>
+            <a href="requiem/requiem-piano-preview.png">钢琴版预览图</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="audio-section" id="structure" aria-labelledby="structure-title">
+      <div class="audio-section-heading">
+        <span>结构时间线</span>
+        <h2 id="structure-title">从开场到最后的提示音</h2>
+      </div>
+      <ul class="requiem-timeline">
+        <li><time>0:00</time><h3>开场</h3><p>八音盒独奏，机房里最后的 50Hz 心跳，低音长音如意识消散。</p></li>
+        <li><time>0:07</time><h3>送葬进行曲</h3><p>挽歌旋律与低音弦乐，闷鼓在第 1、3 拍，肖邦式的步伐。</p></li>
+        <li><time>0:20</time><h3>安魂曲</h3><p>合成合唱团与教堂钟声，和声在 Dm → Bb → F → A7 间流转。</p></li>
+        <li><time>0:33</time><h3>高潮与关机</h3><p>旋律攀至 F6 悲鸣，戛然而止 —— 滑音从 A3 坠落至 D1。</p></li>
+        <li><time>0:43</time><h3>默哀</h3><p>近乎全空的寂静。</p></li>
+        <li><time>0:47</time><h3>尾声</h3><p>八音盒再次响起，终音大钟，以及最后的 POST 提示音，归于沉默。</p></li>
+      </ul>
+      <p class="requiem-note">钢琴版：右手挽歌旋律 · 左手低音与分解琶音 · 半音滑奏代替关机</p>
+    </section>
+
+    <section class="audio-section" aria-labelledby="made-title">
+      <div class="audio-section-heading">
+        <span>制作方式</span>
+        <h2 id="made-title">没有采样，一切从零合成</h2>
+      </div>
+      <div class="audio-feature-grid">
+        <article class="audio-feature">
+          <h3>加法合成</h3>
+          <p><span>谐波拨弦、非谐波钟声泛音</span><span>失谐锯齿弦乐、共振峰合唱团</span><span>钢琴含琴弦拍频与琴槌噪声</span></p>
+        </article>
+        <article class="audio-feature">
+          <h3>大教堂混响</h3>
+          <p><span>FFT 卷积合成的脉冲响应</span><span>早期反射加衰减噪声尾音</span><span>钢琴版用更干的厅堂</span></p>
+        </article>
+        <article class="audio-feature">
+          <h3>可重新生成</h3>
+          <p><span>乐谱与合成脚本全部保留</span><span>任何段落都可以重新编配</span><span>60.000 秒整 · 44.1kHz 立体声</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="audio-help" aria-labelledby="help-title">
+      <h2 id="help-title">想听别的版本，或调整某个段落？</h2>
+      <p><span>告诉我你的感受，我可以重新编配和渲染</span><span>比如更慢、更长、加入人声或换成别的乐器</span></p>
+      <a href="contact.html">联系我</a>
+    </section>
+  </main>
+
+  <footer class="audio-footer">
+    <span>机器挽歌 · 60″ · D 小调 · 72 BPM</span>
+    <a href="works.html">返回作品集</a>
+  </footer>
+
+  <script src="script.js?v=2"></script>
+  <script>
+    const audioEl = document.getElementById('player-audio');
+    document.querySelectorAll('.requiem-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.requiem-tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const wasPlaying = !audioEl.paused;
+        audioEl.src = tab.dataset.src;
+        if (wasPlaying) audioEl.play();
+      });
+    });
+  </script>
+</body>
+</html>
