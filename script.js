@@ -89,4 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-copy-text]').forEach((button) => {
     button.addEventListener('click', () => copyText(button.dataset.copyText, button));
   });
+
+  document.querySelectorAll('[data-print-resume]').forEach((button) => {
+    button.addEventListener('click', () => window.print());
+  });
 });
