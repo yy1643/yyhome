@@ -6,8 +6,8 @@
   <meta name="description" content="广州工程技术职业学院从化校区，2026级数字媒体技术1班课表。按周查看课程、教室与上课时间。">
   <title>课间 · 我的课表</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
-  <script src="data.js" defer></script><script src="app.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261012b">
+  <script src="data.js?v=20261012b" defer></script><script src="app.js?v=20261012b" defer></script>
 </head>
 <body>
   <div class="wallpaper" aria-hidden="true"></div>
@@ -17,31 +17,32 @@
       <div class="school-name">广州工程技术职业学院<span><i></i> 从化校区</span></div>
       <nav aria-label="主导航">
         <button class="nav-item active" data-page="schedule"><span data-icon="calendar"></span>我的课表</button>
-        <button class="nav-item" data-page="courses"><span data-icon="grid"></span>全部课程<span class="nav-count">8</span></button>
+        <button class="nav-item" data-page="courses"><span data-icon="grid"></span>全部课程<span class="nav-count">10</span></button>
         <button class="nav-item" id="settings-nav"><span data-icon="settings"></span>课表设置</button>
       </nav>
       <div class="side-bottom"><div class="small-label">留一点时间，给自己。</div><p>课上认真，课间自在。</p><a href="https://www.gzvtc.edu.cn/" target="_blank" rel="noopener">学校官网 <span data-icon="external"></span></a><div class="side-footer">个人课表 · 非学校官方应用</div></div>
     </aside>
     <main>
       <header class="topbar"><div class="breadcrumb">我的校园 <span>/</span> <b id="page-label">我的课表</b></div><div class="top-actions"><span id="today-date"></span><button class="icon-button" id="settings-top" aria-label="课表设置" title="课表设置"><span data-icon="settings"></span></button><span class="avatar">数媒</span></div></header>
-      <section class="heading"><div><div class="eyebrow">2026 — 2027 · 秋季学期</div><h1 id="page-title">每一课，都心中有数<span>。</span></h1><p>普高2026级数字媒体技术1班 <span class="dot">·</span> 信息工程学院</p></div><a class="download-button" aria-label="下载原始课表" href="assets/original-schedule.xls" download="普高2026级数字媒体技术1班.xls"><span data-icon="download"></span><span>原始课表</span></a></section>
+      <section class="heading"><div><div class="eyebrow">2026 — 2027 · 秋季学期</div><h1 id="page-title">每一课，都心中有数<span>。</span></h1><p>普高2026级数字媒体技术1班 <span class="dot">·</span> 信息工程学院</p></div><a class="download-button" aria-label="下载原始课表" href="assets/original-schedule.xls" download="普高2026级数字媒体技术1班.xls"><span data-icon="download"></span><span>原始班级课表</span></a></section>
       <section id="schedule-page">
         <div class="overview"><div class="week-summary"><span class="summary-icon" data-icon="calendar"></span><div><small>本周安排</small><p><b id="class-count">7</b> 次课 <span class="muted">/</span> <b id="period-count">19</b> 节</p></div></div><div class="summary-line"></div><div class="week-description"><b id="week-message">张弛有度，按自己的节奏来。</b><span id="week-meta">课程随教学周自动切换</span></div><div class="campus-chip"><span data-icon="pin"></span> 从化校区</div></div>
         <section class="schedule-panel" aria-label="课程表">
           <div class="toolbar"><div class="week-controls"><button class="icon-button" id="prev-week" aria-label="上一周"><span data-icon="left"></span></button><label class="week-select-label"><select id="week-select" aria-label="选择教学周"></select></label><button class="icon-button" id="next-week" aria-label="下一周"><span data-icon="right"></span></button><button class="text-button" id="current-week">定位本周</button></div><div class="view-toggle" aria-label="课表视图"><button id="week-view" aria-pressed="true"><span data-icon="grid"></span>周视图</button><button id="day-view" aria-pressed="false"><span data-icon="list"></span>日视图</button></div></div>
           <div class="calendar-caption"><span id="calendar-caption">未设置校历 · 当前展示第 6 周</span><button class="text-button" id="calendar-setup">设置校历 <span aria-hidden="true">↗</span></button></div>
+          <div id="calendar-notes" class="calendar-notes" hidden></div>
           <div id="week-grid" class="week-grid"></div>
           <div id="day-container" hidden><div id="day-tabs" class="day-tabs" aria-label="选择星期"></div><div id="day-list" class="day-list"></div></div>
-          <div class="panel-footer"><span><i class="legend-dot"></i> 点击课程查看详情</span><label class="weekend-control"><input type="checkbox" id="weekend-toggle"> 显示周末</label></div>
+          <div class="panel-footer"><span><i class="legend-dot"></i> 点击课程查看详情</span><label class="weekend-control"><input type="checkbox" id="weekend-toggle"> <span id="weekend-label">显示周末</span></label></div>
         </section>
-        <div class="bottom-note"><span data-icon="info"></span><span>课程来自你的原始课表，作息按你确认的图片设置。调课请以班级通知为准。</span></div>
+        <div class="bottom-note"><span data-icon="info"></span><span>已合并班级课表和个人选课，作息与周次按你提供的图片设置。调课请以班级通知为准。</span></div>
       </section>
-      <section id="courses-page" hidden><div class="course-list-heading"><h2>本学期课程 <span>8 门</span></h2><label class="search"><span data-icon="search"></span><input id="course-search" placeholder="搜索课程、教师或教室" aria-label="搜索课程"></label></div><div id="all-courses" class="all-courses"></div></section>
-      <footer class="main-footer"><span>课间 <span class="footer-separator">/</span> 好好上课，也好好生活。</span><span>课表更新于 2026.09.28</span></footer>
+      <section id="courses-page" hidden><div class="course-list-heading"><h2>本学期课程 <span id="catalog-count">10 门</span></h2><label class="search"><span data-icon="search"></span><input id="course-search" placeholder="搜索课程、教师或教室" aria-label="搜索课程"></label></div><div id="all-courses" class="all-courses"></div></section>
+      <footer class="main-footer"><span>课间 <span class="footer-separator">/</span> 好好上课，也好好生活。</span><span>课表更新于 2026.10.12</span></footer>
     </main>
   </div>
   <dialog id="course-dialog" aria-labelledby="course-title"><button class="dialog-close icon-button" data-close aria-label="关闭课程详情"><span data-icon="close"></span></button><div class="eyebrow">COURSE DETAILS</div><h2 id="course-title"></h2><div id="course-details"></div><label class="note-label" for="course-note">课程备忘 <span>仅保存在此浏览器</span></label><textarea id="course-note" rows="3" maxlength="1000" placeholder="记下要带的材料、作业或小提醒…"></textarea><button id="save-note" class="primary-button">保存备忘</button></dialog>
-  <dialog id="settings-dialog" aria-labelledby="settings-title"><button class="dialog-close icon-button" data-close aria-label="关闭设置"><span data-icon="close"></span></button><div class="eyebrow">MAKE IT YOURS</div><h2 id="settings-title">课表设置</h2><form id="settings-form"><label class="field-label" for="semester-start">第 1 教学周的星期一</label><input type="date" id="semester-start" min="2026-07-01" max="2027-07-01"><p class="field-help">原课表未包含校历。设置后会显示日期，并自动定位本周；请填写第 1 周，非开始上课的第 6 周。</p><div class="field-row"><label for="opacity">面板不透明度</label><output id="opacity-value">88%</output></div><input id="opacity" type="range" min="65" max="100" value="88"><div class="times-heading">上课时间 <span>按你确认的作息图片</span></div><div id="time-reference" class="time-reference"></div><p class="field-help">图片只给出双节时间。仅上一节的课程保留准确节次，不推测结束钟点。</p><button type="submit" class="primary-button">保存设置</button><p id="settings-error" role="alert"></p></form></dialog>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><button class="dialog-close icon-button" data-close aria-label="关闭设置"><span data-icon="close"></span></button><div class="eyebrow">MAKE IT YOURS</div><h2 id="settings-title">课表设置</h2><form id="settings-form"><label class="field-label" for="semester-start">第 1 教学周的星期一</label><input type="date" id="semester-start" min="2026-07-01" max="2027-07-01"><p class="field-help">已按校历设置：第 1 周从 2026 年 9 月 7 日所在周计算，10 月 12 日为第 6 周。留空保存可恢复校历默认值。</p><div class="field-row"><label for="opacity">面板不透明度</label><output id="opacity-value">88%</output></div><input id="opacity" type="range" min="65" max="100" value="88"><div class="times-heading">上课时间 <span>按你确认的作息图片</span></div><div id="time-reference" class="time-reference"></div><p class="field-help">每节课 40 分钟，课间 5 分钟；课程详情按实际起止节次显示准确时间。</p><button type="submit" class="primary-button">保存设置</button><p id="settings-error" role="alert"></p></form></dialog>
   <div id="toast" role="status" class="toast"></div>
 </body>
 </html>

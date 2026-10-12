@@ -3,7 +3,8 @@
   const $ = id => document.getElementById(id);
   const data = window.SCHEDULE_DATA;
   const days = ['一','二','三','四','五','六','日'];
-  const blocks = [['09:00','10:25'],['10:30','11:55'],['14:10','15:35'],['15:40','17:05'],['19:00','20:25'],['20:30','21:55']];
+  const periodTimes = data.periodTimes;
+  const blocks = Array.from({length:6},(_,i)=>[periodTimes[i*2][0],periodTimes[i*2+1][1]]);
   const icons = {
     book:'<path d="M3 5h6l3 2 3-2h6v15h-6l-3 2-3-2H3zM12 7v15"/>',
     calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-13 4h2m4 0h2m-8 3h2"/>',
@@ -27,7 +28,9 @@
   function read(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}}
   let settings = read('kejian.settings.v1',{});
   if(!settings || typeof settings!=='object') settings={};
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(settings.start||'') || new Date(settings.start+'T00:00:00Z').getUTCDay()!==1) settings.start='';
+  // Migrate the previously unconfirmed calendar once, retaining notes and appearance.
+  if(settings.calendarVersion!==data.calendarVersion){settings.start=data.semesterStart;settings.calendarVersion=data.calendarVersion;}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(settings.start||'') || new Date(settings.start+'T00:00:00Z').getUTCDay()!==1) settings.start=data.semesterStart;
   settings.opacity=Math.max(65,Math.min(100,Number(settings.opacity)||88));
   let notes=read('kejian.notes.v1',{}); if(!notes||typeof notes!=='object') notes={};
   function persist(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{toast('浏览器未允许保存，设置仅在本次打开生效');return false;}}
@@ -45,7 +48,7 @@
   function activeCourses(){return data.courses.filter(c=>c.weekStart<=week && c.weekEnd>=week).sort((a,b)=>a.day-b.day||a.start-b.start);}
   function recurrence(c){return c.weekStart===c.weekEnd?`第 ${c.weekStart} 周`:`第 ${c.weekStart}–${c.weekEnd} 周`;}
   function period(c){return `第 ${c.start}–${c.end} 节`;}
-  function time(c){const start=blocks[Math.floor((c.start-1)/2)][0];return c.end%2===0?`${start}–${blocks[Math.floor((c.end-1)/2)][1]}`:`${start} 起`;}
+  function time(c){return `${periodTimes[c.start-1][0]}–${periodTimes[c.end-1][1]}`;}
   function room(c){return c.location.replace('从化校区 ','');}
   function dateForDay(d){if(!settings.start)return null;return new Date(new Date(settings.start+'T00:00:00Z').getTime()+((week-1)*7+d-1)*86400000);}
   const dateText=d=>`${String(d.getUTCMonth()+1).padStart(2,'0')}.${String(d.getUTCDate()).padStart(2,'0')}`;
@@ -61,8 +64,15 @@
     $('week-meta').textContent=courses.length?`${busyDays} 天有课 · ${new Set(courses.map(c=>c.name)).size} 门课程 · 按第 ${week} 周安排`:'原始课表未列出本周课程，请留意班级通知';
     $('calendar-caption').textContent=settings.start?`${dateText(dateForDay(1))} — ${dateText(dateForDay(7))} · ${dateForDay(1).getUTCFullYear()} 年${currentWeek()===week?' · 本周':''}`:`未设置校历 · 当前展示第 ${week} 周`;
     $('calendar-setup').textContent=settings.start?'调整校历 ↗':'设置校历 ↗';
-    $('weekend-toggle').checked=weekends;
-    const count=weekends?7:5;
+    const hasWeekendCourses=courses.some(c=>c.day>5);
+    $('weekend-toggle').checked=weekends||hasWeekendCourses;
+    $('weekend-toggle').disabled=hasWeekendCourses;
+    $('weekend-label').textContent=hasWeekendCourses?'本周有课 · 显示周末':'显示周末';
+    const count=weekends||hasWeekendCourses?7:5;
+    const first=dateForDay(1), last=dateForDay(7);
+    const calendarNotes=data.calendarNotes.filter(n=>first&&last&&new Date(n.start+'T00:00:00Z')<=last&&new Date(n.end+'T00:00:00Z')>=first);
+    $('calendar-notes').hidden=!calendarNotes.length;
+    $('calendar-notes').textContent=calendarNotes.map(n=>n.text).join(' ');
     let html='<div class="grid-corner" style="grid-column:1;grid-row:1">节次 / 时间</div>';
     for(let d=1;d<=count;d++) html+=`<div class="day-header ${isToday(d)?'today':''}" style="grid-column:${d+1};grid-row:1">周${days[d-1]}<span>${dateForDay(d)?dateText(dateForDay(d)):['MON','TUE','WED','THU','FRI','SAT','SUN'][d-1]}</span></div>`;
     for(let b=0;b<6;b++){
@@ -79,11 +89,13 @@
     $('week-view').setAttribute('aria-pressed',view==='week');$('day-view').setAttribute('aria-pressed',view==='day');
   }
   function renderCatalog(){const q=$('course-search').value.trim().toLowerCase();const filtered=names.filter(n=>data.courses.some(c=>c.name===n&&[c.name,c.teacher,c.location].some(v=>v.toLowerCase().includes(q))));$('all-courses').innerHTML=filtered.length?filtered.map(n=>{const courses=data.courses.filter(c=>c.name===n);return `<article class="catalog-card" style="${color(courses[0])}"><i></i><h3>${esc(n)}</h3><p>${esc(courses[0].teacher)} · ${esc(room(courses[0]))}</p>${courses.map(c=>`<button class="catalog-session" data-course="${c.id}"><span>周${days[c.day-1]} · ${period(c)}<br>${time(c)}</span><span>${recurrence(c)} ↗</span></button>`).join('')}</article>`;}).join(''):'<div class="empty-state"><h3>没有找到匹配的课程</h3><p>试试课程名称、老师姓名或教室。</p></div>';}
-  function openCourse(id){const c=data.courses.find(c=>c.id===id);if(!c)return;selectedCourse=c;$('course-title').textContent=c.name;const rows=[['clock','上课时间',`星期${days[c.day-1]} · ${period(c)}<br>${time(c)}${c.end%2?' <small>（单节结束时间待确认）</small>':''}`],['calendar','上课周次',recurrence(c)],['pin','上课地点',esc(c.location)],['user','授课教师',esc(c.teacher)]];$('course-details').innerHTML=rows.map(([i,label,value])=>`<div class="detail-row">${icon(i)}<span>${label}</span><b>${value}</b></div>`).join('');$('course-note').value=typeof notes[c.name]==='string'?notes[c.name]:'';$('course-dialog').showModal();}
+  function openCourse(id){const c=data.courses.find(c=>c.id===id);if(!c)return;selectedCourse=c;$('course-title').textContent=c.name;const rows=[['clock','上课时间',`星期${days[c.day-1]} · ${period(c)}<br>${time(c)}`],['calendar','上课周次',recurrence(c)],['pin','上课地点',esc(c.location)],['user','授课教师',esc(c.teacher)]];if(c.courseType)rows.push(['book','课程类型',esc(c.courseType)]);if(c.credits)rows.push(['book','学分',esc(c.credits)]);$('course-details').innerHTML=rows.map(([i,label,value])=>`<div class="detail-row">${icon(i)}<span>${label}</span><b>${value}</b></div>`).join('');$('course-note').value=typeof notes[c.name]==='string'?notes[c.name]:'';$('course-dialog').showModal();}
   function openSettings(){ $('semester-start').value=settings.start||'';$('opacity').value=settings.opacity;$('opacity-value').value=`${settings.opacity}%`;$('settings-error').textContent='';$('settings-dialog').showModal(); }
   function toast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),3200);}
   $('week-select').innerHTML=Array.from({length:20},(_,i)=>`<option value="${i+1}">第 ${i+1} 周</option>`).join('');
-  $('time-reference').innerHTML=blocks.map((b,i)=>`<div><span>${i*2+1}–${i*2+2} 节</span><b>${b[0]}–${b[1]}</b></div>`).join('');
+  $('time-reference').innerHTML=periodTimes.map((b,i)=>`<div><span>第 ${i+1} 节</span><b>${b[0]}–${b[1]}</b></div>`).join('');
+  document.querySelector('.nav-count').textContent=names.length;
+  $('catalog-count').textContent=`${names.length} 门`;
   $('today-date').textContent=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',month:'long',day:'numeric',weekday:'long'}).format(new Date());
   document.documentElement.style.setProperty('--panel-opacity',settings.opacity/100);
   $('prev-week').onclick=()=>{week--;render();};$('next-week').onclick=()=>{week++;render();};
@@ -100,7 +112,7 @@
   $('save-note').onclick=()=>{notes[selectedCourse.name]=$('course-note').value;const saved=persist('kejian.notes.v1',notes);$('course-dialog').close();if(saved)toast('课程备忘已保存');};
   $('opacity').oninput=e=>{$('opacity-value').value=`${e.target.value}%`;document.documentElement.style.setProperty('--panel-opacity',e.target.value/100);};
   $('settings-dialog').addEventListener('close',()=>document.documentElement.style.setProperty('--panel-opacity',settings.opacity/100));
-  $('settings-form').onsubmit=e=>{e.preventDefault();const start=$('semester-start').value;if(start&&new Date(start+'T00:00:00Z').getUTCDay()!==1){$('settings-error').textContent='请选择星期一，作为第 1 教学周的开始日期。';return;}settings.start=start;settings.opacity=Number($('opacity').value);const saved=persist('kejian.settings.v1',settings);if(start)week=clampWeek(currentWeek());render();$('settings-dialog').close();if(saved)toast('课表设置已保存');};
+  $('settings-form').onsubmit=e=>{e.preventDefault();const start=$('semester-start').value;if(start&&new Date(start+'T00:00:00Z').getUTCDay()!==1){$('settings-error').textContent='请选择星期一，作为第 1 教学周的开始日期。';return;}settings.start=start||data.semesterStart;settings.opacity=Number($('opacity').value);const saved=persist('kejian.settings.v1',settings);week=clampWeek(currentWeek());render();$('settings-dialog').close();if(saved)toast('课表设置已保存');};
   document.querySelector('.brand').onclick=()=>document.querySelector('[data-page="schedule"]').click();
   hydrateIcons();render();
 })();

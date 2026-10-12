@@ -8,3 +8,5 @@
 .week-grid .course-card.compact .teacher{display:none}.wallpaper:after{background:rgba(242,246,242,.30)}
 .view-toggle button{white-space:nowrap}
 @media(max-width:360px){#current-week{display:none}.view-toggle svg{display:none}.view-toggle button{padding:7px 9px}.week-select-label select{font-size:13px}.heading p{max-width:230px;line-height:1.8}.heading h1{font-size:20px}}
+
+.calendar-notes{margin:0 25px 14px;padding:10px 13px;border-radius:7px;background:#eee9dc90;color:#7a7059;font-size:11px;line-height:1.8}.week-grid .course-card.compact .room{margin-top:5px}.week-grid .course-card.compact strong{font-size:11px;line-height:1.45}.week-grid .course-card.compact{padding-top:8px;padding-bottom:7px}.week-grid .course-card.compact .period{padding-top:3px}.daily-time{overflow-wrap:anywhere}@media(max-width:620px){.calendar-notes{margin:0 16px 12px;font-size:10px}.week-grid .course-card.compact strong{font-size:9px}.week-grid[style*="7"] .course-card .room{display:none}}
