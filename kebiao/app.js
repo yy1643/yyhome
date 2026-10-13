@@ -38,7 +38,7 @@
   function currentWeek(){return settings.start?Math.floor((today()-new Date(settings.start+'T00:00:00Z'))/604800000)+1:null;}
   const clampWeek=n=>Math.min(20,Math.max(1,n));
   let week=clampWeek(currentWeek()??6), day=today().getUTCDay()||7;
-  let view=window.matchMedia('(max-width:620px)').matches?'day':'week';
+  let view='week';
   let weekends=!!settings.weekends;
   if(day>5) weekends=true;
   let selectedCourse=null;
