@@ -4,7 +4,6 @@
   const data = window.SCHEDULE_DATA;
   const days = ['一','二','三','四','五','六','日'];
   const periodTimes = data.periodTimes;
-  const blocks = Array.from({length:6},(_,i)=>[periodTimes[i*2][0],periodTimes[i*2+1][1]]);
   const icons = {
     book:'<path d="M3 5h6l3 2 3-2h6v15h-6l-3 2-3-2H3zM12 7v15"/>',
     calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-13 4h2m4 0h2m-8 3h2"/>',
@@ -75,9 +74,9 @@
     $('calendar-notes').textContent=calendarNotes.map(n=>n.text).join(' ');
     let html='<div class="grid-corner" style="grid-column:1;grid-row:1">节次 / 时间</div>';
     for(let d=1;d<=count;d++) html+=`<div class="day-header ${isToday(d)?'today':''}" style="grid-column:${d+1};grid-row:1">周${days[d-1]}<span>${dateForDay(d)?dateText(dateForDay(d)):['MON','TUE','WED','THU','FRI','SAT','SUN'][d-1]}</span></div>`;
-    for(let b=0;b<6;b++){
-      html+=`<div class="time-label" style="grid-row:${b*2+2} / span 2"><em>${['上午','上午','下午','下午','晚上','晚上'][b]}</em><b>${b*2+1}–${b*2+2}</b><span>${blocks[b][0]}</span><span>${blocks[b][1]}</span></div>`;
-      for(let d=1;d<=count;d++)html+=`<div class="grid-cell ${isToday(d)?'current':''}" style="grid-column:${d+1};grid-row:${b*2+2} / span 2"></div>`;
+    for(let p=0;p<periodTimes.length;p++){
+      html+=`<div class="time-label" style="grid-row:${p+2}" aria-label="第 ${p+1} 节，${periodTimes[p][0]} 至 ${periodTimes[p][1]}"><b>${p+1}</b><span>${periodTimes[p][0]}</span><span>${periodTimes[p][1]}</span></div>`;
+      for(let d=1;d<=count;d++)html+=`<div class="grid-cell ${isToday(d)?'current':''}" style="grid-column:${d+1};grid-row:${p+2}"></div>`;
     }
     html+=courses.filter(c=>c.day<=count).map(c=>card(c,true)).join('');
     $('week-grid').style.setProperty('--days',count);$('week-grid').innerHTML=html;
