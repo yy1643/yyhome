@@ -6,8 +6,8 @@
   <meta name="description" content="广州工程技术职业学院从化校区，2026级数字媒体技术1班课表。按周查看课程、教室与上课时间。">
   <title>课间 · 我的课表</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=20261012b">
-  <script src="data.js?v=20261012b" defer></script><script src="app.js?v=20261012b" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261013a">
+  <script src="data.js?v=20261013a" defer></script><script src="app.js?v=20261013a" defer></script>
 </head>
 <body>
   <div class="wallpaper" aria-hidden="true"></div>
@@ -38,11 +38,11 @@
         <div class="bottom-note"><span data-icon="info"></span><span>已合并班级课表和个人选课，作息与周次按你提供的图片设置。调课请以班级通知为准。</span></div>
       </section>
       <section id="courses-page" hidden><div class="course-list-heading"><h2>本学期课程 <span id="catalog-count">10 门</span></h2><label class="search"><span data-icon="search"></span><input id="course-search" placeholder="搜索课程、教师或教室" aria-label="搜索课程"></label></div><div id="all-courses" class="all-courses"></div></section>
-      <footer class="main-footer"><span>课间 <span class="footer-separator">/</span> 好好上课，也好好生活。</span><span>课表更新于 2026.10.12</span></footer>
+      <footer class="main-footer"><span>课间 <span class="footer-separator">/</span> 好好上课，也好好生活。</span><span>课表更新于 2026.10.13</span></footer>
     </main>
   </div>
   <dialog id="course-dialog" aria-labelledby="course-title"><button class="dialog-close icon-button" data-close aria-label="关闭课程详情"><span data-icon="close"></span></button><div class="eyebrow">COURSE DETAILS</div><h2 id="course-title"></h2><div id="course-details"></div><label class="note-label" for="course-note">课程备忘 <span>仅保存在此浏览器</span></label><textarea id="course-note" rows="3" maxlength="1000" placeholder="记下要带的材料、作业或小提醒…"></textarea><button id="save-note" class="primary-button">保存备忘</button></dialog>
-  <dialog id="settings-dialog" aria-labelledby="settings-title"><button class="dialog-close icon-button" data-close aria-label="关闭设置"><span data-icon="close"></span></button><div class="eyebrow">MAKE IT YOURS</div><h2 id="settings-title">课表设置</h2><form id="settings-form"><label class="field-label" for="semester-start">第 1 教学周的星期一</label><input type="date" id="semester-start" min="2026-07-01" max="2027-07-01"><p class="field-help">已按校历设置：第 1 周从 2026 年 9 月 7 日所在周计算，10 月 12 日为第 6 周。留空保存可恢复校历默认值。</p><div class="field-row"><label for="opacity">面板不透明度</label><output id="opacity-value">88%</output></div><input id="opacity" type="range" min="65" max="100" value="88"><div class="times-heading">上课时间 <span>按你确认的作息图片</span></div><div id="time-reference" class="time-reference"></div><p class="field-help">每节课 40 分钟，课间 5 分钟；课程详情按实际起止节次显示准确时间。</p><button type="submit" class="primary-button">保存设置</button><p id="settings-error" role="alert"></p></form></dialog>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><button class="dialog-close icon-button" data-close aria-label="关闭设置"><span data-icon="close"></span></button><div class="eyebrow">MAKE IT YOURS</div><h2 id="settings-title">课表设置</h2><form id="settings-form"><label class="field-label" for="semester-start">第 1 教学周的星期一</label><input type="date" id="semester-start" min="2026-07-01" max="2027-07-01"><p class="field-help">已按校历设置：第 1 周从 2026 年 9 月 7 日所在周计算，10 月 12 日为第 6 周。留空保存可恢复校历默认值。</p><div class="field-row"><label for="opacity">面板不透明度</label><output id="opacity-value">88%</output></div><input id="opacity" type="range" min="65" max="100" value="88"><div class="times-heading">上课时间 <span>按你确认的作息图片</span></div><div id="time-reference" class="time-reference"></div><p class="field-help">每节课 40 分钟；第 2、3 节之间休息 10 分钟，其余相邻连堂课间休息 5 分钟；课程详情按实际起止节次显示准确时间。</p><button type="submit" class="primary-button">保存设置</button><p id="settings-error" role="alert"></p></form></dialog>
   <div id="toast" role="status" class="toast"></div>
 </body>
 </html>
