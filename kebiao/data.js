@@ -3,7 +3,7 @@ window.SCHEDULE_DATA = {
   "department": "信息工程学院",
   "className": "普高2026级数字媒体技术1班",
   "semester": "2026—2027 学年 · 第一学期",
-  "sourceUpdated": "2026-10-13",
+  "sourceUpdated": "2026-11-03",
   "courses": [
     {
       "name": "美术基础",
@@ -151,6 +151,18 @@ window.SCHEDULE_DATA = {
       "teacher": "黄爱娣",
       "courseType": "公共选修课",
       "credits": 2
+    },
+    {
+      "id": "course-14",
+      "name": "美术基础",
+      "day": 1,
+      "weekStart": 10,
+      "weekEnd": 20,
+      "timeStart": "18:00",
+      "timeEnd": "20:15",
+      "location": "待确认",
+      "teacher": "待确认",
+      "scheduleNote": "11 月 9 日起每周一加课；结束周暂按原美术课排到第 20 周，具体以老师通知为准。教师、教室待确认。"
     }
   ],
   "semesterStart": "2026-09-07",
@@ -240,6 +252,11 @@ window.SCHEDULE_DATA = {
       "start": "2027-01-23",
       "end": "2027-01-24",
       "text": "1 月 23 日起放寒假。"
+    },
+    {
+      "start": "2026-11-09",
+      "end": "2027-01-24",
+      "text": "周一美术加课 18:00–20:15；暂排第 10–20 周，结束周及教师、教室待确认。"
     }
   ]
 };

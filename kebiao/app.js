@@ -44,23 +44,30 @@
   const names=[...new Set(data.courses.map(c=>c.name))];
   const palettes=[['#e4edf0','#8ba8b4','#3d5e6b'],['#eaece2','#a8af8d','#626c48'],['#dfeceb','#86aaa3','#3d665f'],['#e8e6f0','#a59eba','#625b7b'],['#efe9df','#b8a68b','#7a6950'],['#e4eaf1','#8ba2ba','#4d647d'],['#eee6e6','#bba1a1','#7f6060'],['#e9e9df','#acac88','#73734f']];
   function color(c){const p=palettes[names.indexOf(c.name)%palettes.length];return `--course-bg:${p[0]};--course-accent:${p[1]};--course-fg:${p[2]}`;}
-  function activeCourses(){return data.courses.filter(c=>c.weekStart<=week && c.weekEnd>=week).sort((a,b)=>a.day-b.day||a.start-b.start);}
-  function recurrence(c){return c.weekStart===c.weekEnd?`第 ${c.weekStart} 周`:`第 ${c.weekStart}–${c.weekEnd} 周`;}
-  function period(c){return `第 ${c.start}–${c.end} 节`;}
-  function time(c){return `${periodTimes[c.start-1][0]}–${periodTimes[c.end-1][1]}`;}
+  const isExtra=c=>Boolean(c.timeStart);
+  const startTime=c=>c.timeStart||periodTimes[c.start-1][0];
+  let showExtraRow=false;
+  const periodRow=p=>p+1+(showExtraRow&&p>=9?1:0);
+  function activeCourses(){return data.courses.filter(c=>c.weekStart<=week && c.weekEnd>=week).sort((a,b)=>a.day-b.day||startTime(a).localeCompare(startTime(b)));}
+  function recurrence(c){const label=c.weekStart===c.weekEnd?`第 ${c.weekStart} 周`:`第 ${c.weekStart}–${c.weekEnd} 周`;return label+(isExtra(c)?'（暂排）':'');}
+  function period(c){return isExtra(c)?'加课（非标准节次）':`第 ${c.start}–${c.end} 节`;}
+  function time(c){return `${startTime(c)}–${c.timeEnd||periodTimes[c.end-1][1]}`;}
   function room(c){return c.location.replace('从化校区 ','');}
   function dateForDay(d){if(!settings.start)return null;return new Date(new Date(settings.start+'T00:00:00Z').getTime()+((week-1)*7+d-1)*86400000);}
   const dateText=d=>`${String(d.getUTCMonth()+1).padStart(2,'0')}.${String(d.getUTCDate()).padStart(2,'0')}`;
   function isToday(d){return dateForDay(d)?.getTime()===today().getTime();}
-  function card(c,grid=false){return `<button class="course-card ${c.end-c.start<2?'compact':''}" data-course="${c.id}" style="${color(c)}${grid?`;grid-column:${c.day+1};grid-row:${c.start+1} / span ${c.end-c.start+1}`:''}" aria-label="${esc(c.name)}，星期${days[c.day-1]}，${period(c)}，${esc(room(c))}"><strong>${esc(c.name)}</strong><span class="room">${esc(room(c))}</span><span class="teacher">${esc(c.teacher)}</span><span class="period">${period(c)}</span></button>`;}
+  function card(c,grid=false){return `<button class="course-card ${isExtra(c)||c.end-c.start<2?'compact':''} ${isExtra(c)?'extra-course':''}" data-course="${c.id}" style="${color(c)}${grid?`;grid-column:${c.day+1};grid-row:${isExtra(c)?10:periodRow(c.start)} / span ${isExtra(c)?1:periodRow(c.end)-periodRow(c.start)+1}`:''}" aria-label="${esc(c.name)}，星期${days[c.day-1]}，${period(c)}，${esc(room(c))}"><strong>${esc(c.name)}</strong>${isExtra(c)?`<span class="extra-time">${time(c)}</span>`:''}<span class="room">${esc(room(c))}</span><span class="teacher">${esc(c.teacher)}</span><span class="period">${isExtra(c)?'加课':period(c)}</span></button>`;}
   function render(){
     const courses=activeCourses();
+    const extraCount=courses.filter(isExtra).length;
+    showExtraRow=extraCount>0;
     $('week-select').value=week;
     $('prev-week').disabled=week===1;$('next-week').disabled=week===20;
-    $('class-count').textContent=courses.length;$('period-count').textContent=courses.reduce((s,c)=>s+c.end-c.start+1,0);
+    $('class-count').textContent=courses.length;$('period-count').textContent=courses.filter(c=>!isExtra(c)).reduce((s,c)=>s+c.end-c.start+1,0);
+    $('period-unit').textContent=extraCount?'节常规课':'节';
     const busyDays=new Set(courses.map(c=>c.day)).size;
     $('week-message').textContent=courses.length?'张弛有度，按自己的节奏来。':'这一周，课表里没有安排。';
-    $('week-meta').textContent=courses.length?`${busyDays} 天有课 · ${new Set(courses.map(c=>c.name)).size} 门课程 · 按第 ${week} 周安排`:'原始课表未列出本周课程，请留意班级通知';
+    $('week-meta').textContent=courses.length?`${busyDays} 天有课 · ${new Set(courses.map(c=>c.name)).size} 门课程 · 按第 ${week} 周安排${extraCount?` · 另有 ${extraCount} 次加课`:""}`:'原始课表未列出本周课程，请留意班级通知';
     $('calendar-caption').textContent=settings.start?`${dateText(dateForDay(1))} — ${dateText(dateForDay(7))} · ${dateForDay(1).getUTCFullYear()} 年${currentWeek()===week?' · 本周':''}`:`未设置校历 · 当前展示第 ${week} 周`;
     $('calendar-setup').textContent=settings.start?'调整校历 ↗':'设置校历 ↗';
     const hasWeekendCourses=courses.some(c=>c.day>5);
@@ -75,9 +82,14 @@
     let html='<div class="grid-corner" style="grid-column:1;grid-row:1">节次 / 时间</div>';
     for(let d=1;d<=count;d++) html+=`<div class="day-header ${isToday(d)?'today':''}" style="grid-column:${d+1};grid-row:1">周${days[d-1]}<span>${dateForDay(d)?dateText(dateForDay(d)):['MON','TUE','WED','THU','FRI','SAT','SUN'][d-1]}</span></div>`;
     for(let p=0;p<periodTimes.length;p++){
-      html+=`<div class="time-label" style="grid-row:${p+2}" aria-label="第 ${p+1} 节，${periodTimes[p][0]} 至 ${periodTimes[p][1]}"><b>${p+1}</b><span>${periodTimes[p][0]}</span><span>${periodTimes[p][1]}</span></div>`;
-      for(let d=1;d<=count;d++)html+=`<div class="grid-cell ${isToday(d)?'current':''}" style="grid-column:${d+1};grid-row:${p+2}"></div>`;
+      html+=`<div class="time-label" style="grid-row:${periodRow(p+1)}" aria-label="第 ${p+1} 节，${periodTimes[p][0]} 至 ${periodTimes[p][1]}"><b>${p+1}</b><span>${periodTimes[p][0]}</span><span>${periodTimes[p][1]}</span></div>`;
+      for(let d=1;d<=count;d++)html+=`<div class="grid-cell ${isToday(d)?'current':''}" style="grid-column:${d+1};grid-row:${periodRow(p+1)}"></div>`;
     }
+    if(showExtraRow){
+      html+='<div class="time-label extra-label" style="grid-row:10"><b>加课</b><span>18:00</span><span>20:15</span></div>';
+      for(let d=1;d<=count;d++)html+=`<div class="grid-cell ${isToday(d)?'current':''}" style="grid-column:${d+1};grid-row:10"></div>`;
+    }
+    $('week-grid').classList.toggle('has-extra',showExtraRow);
     html+=courses.filter(c=>c.day<=count).map(c=>card(c,true)).join('');
     $('week-grid').style.setProperty('--days',count);$('week-grid').innerHTML=html;
     if(day>count)day=1;
@@ -87,8 +99,8 @@
     $('week-grid').hidden=view!=='week';$('day-container').hidden=view!=='day';
     $('week-view').setAttribute('aria-pressed',view==='week');$('day-view').setAttribute('aria-pressed',view==='day');
   }
-  function renderCatalog(){const q=$('course-search').value.trim().toLowerCase();const filtered=names.filter(n=>data.courses.some(c=>c.name===n&&[c.name,c.teacher,c.location].some(v=>v.toLowerCase().includes(q))));$('all-courses').innerHTML=filtered.length?filtered.map(n=>{const courses=data.courses.filter(c=>c.name===n);return `<article class="catalog-card" style="${color(courses[0])}"><i></i><h3>${esc(n)}</h3><p>${esc(courses[0].teacher)} · ${esc(room(courses[0]))}</p>${courses.map(c=>`<button class="catalog-session" data-course="${c.id}"><span>周${days[c.day-1]} · ${period(c)}<br>${time(c)}</span><span>${recurrence(c)} ↗</span></button>`).join('')}</article>`;}).join(''):'<div class="empty-state"><h3>没有找到匹配的课程</h3><p>试试课程名称、老师姓名或教室。</p></div>';}
-  function openCourse(id){const c=data.courses.find(c=>c.id===id);if(!c)return;selectedCourse=c;$('course-title').textContent=c.name;const rows=[['clock','上课时间',`星期${days[c.day-1]} · ${period(c)}<br>${time(c)}`],['calendar','上课周次',recurrence(c)],['pin','上课地点',esc(c.location)],['user','授课教师',esc(c.teacher)]];if(c.courseType)rows.push(['book','课程类型',esc(c.courseType)]);if(c.credits)rows.push(['book','学分',esc(c.credits)]);$('course-details').innerHTML=rows.map(([i,label,value])=>`<div class="detail-row">${icon(i)}<span>${label}</span><b>${value}</b></div>`).join('');$('course-note').value=typeof notes[c.name]==='string'?notes[c.name]:'';$('course-dialog').showModal();}
+  function renderCatalog(){const q=$('course-search').value.trim().toLowerCase();const filtered=names.filter(n=>data.courses.some(c=>c.name===n&&[c.name,c.teacher,c.location].some(v=>v.toLowerCase().includes(q))));$('all-courses').innerHTML=filtered.length?filtered.map(n=>{const courses=data.courses.filter(c=>c.name===n);return `<article class="catalog-card" style="${color(courses[0])}"><i></i><h3>${esc(n)}</h3><p>${esc(courses[0].teacher)} · ${esc(room(courses[0]))}</p>${courses.map(c=>`<button class="catalog-session" data-course="${c.id}"><span>周${days[c.day-1]} · ${period(c)}<br>${time(c)}${isExtra(c)?'<br>教师、教室待确认':''}</span><span>${recurrence(c)} ↗</span></button>`).join('')}</article>`;}).join(''):'<div class="empty-state"><h3>没有找到匹配的课程</h3><p>试试课程名称、老师姓名或教室。</p></div>';}
+  function openCourse(id){const c=data.courses.find(c=>c.id===id);if(!c)return;selectedCourse=c;$('course-title').textContent=c.name;const rows=[['clock','上课时间',`星期${days[c.day-1]} · ${period(c)}<br>${time(c)}`],['calendar','上课周次',recurrence(c)],['pin','上课地点',esc(c.location)],['user','授课教师',esc(c.teacher)]];if(c.scheduleNote)rows.push(['info','安排说明',esc(c.scheduleNote)]);if(c.courseType)rows.push(['book','课程类型',esc(c.courseType)]);if(c.credits)rows.push(['book','学分',esc(c.credits)]);$('course-details').innerHTML=rows.map(([i,label,value])=>`<div class="detail-row">${icon(i)}<span>${label}</span><b>${value}</b></div>`).join('');$('course-note').value=typeof notes[c.name]==='string'?notes[c.name]:'';$('course-dialog').showModal();}
   function openSettings(){ $('semester-start').value=settings.start||'';$('opacity').value=settings.opacity;$('opacity-value').value=`${settings.opacity}%`;$('settings-error').textContent='';$('settings-dialog').showModal(); }
   function toast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),3200);}
   $('week-select').innerHTML=Array.from({length:20},(_,i)=>`<option value="${i+1}">第 ${i+1} 周</option>`).join('');
