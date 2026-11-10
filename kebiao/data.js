@@ -3,7 +3,7 @@ window.SCHEDULE_DATA = {
   "department": "信息工程学院",
   "className": "普高2026级数字媒体技术1班",
   "semester": "2026—2027 学年 · 第一学期",
-  "sourceUpdated": "2026-11-03",
+  "sourceUpdated": "2026-11-10",
   "courses": [
     {
       "name": "美术基础",
@@ -53,7 +53,7 @@ window.SCHEDULE_DATA = {
       "name": "生成式AI数字图像处理",
       "day": 3,
       "weekStart": 6,
-      "weekEnd": 19,
+      "weekEnd": 18,
       "start": 5,
       "end": 6,
       "location": "从化校区 计算机楼 201",
@@ -96,7 +96,7 @@ window.SCHEDULE_DATA = {
     {
       "name": "党史",
       "day": 5,
-      "weekStart": 10,
+      "weekStart": 11,
       "weekEnd": 17,
       "start": 1,
       "end": 2,
@@ -163,6 +163,30 @@ window.SCHEDULE_DATA = {
       "location": "待确认",
       "teacher": "待确认",
       "scheduleNote": "11 月 9 日起每周一加课；结束周暂按原美术课排到第 20 周，具体以老师通知为准。教师、教室待确认。"
+    },
+    {
+      "name": "党史",
+      "day": 4,
+      "weekStart": 18,
+      "weekEnd": 18,
+      "start": 5,
+      "end": 6,
+      "location": "从化校区 实训一号楼 101",
+      "teacher": "周娇",
+      "id": "course-15",
+      "scheduleNote": "调课：原第 10 周周五第 1–2 节，调整到第 18 周周四第 5–6 节；地点仍为实训一号楼 101。"
+    },
+    {
+      "name": "生成式AI数字图像处理",
+      "day": 3,
+      "weekStart": 10,
+      "weekEnd": 10,
+      "start": 7,
+      "end": 8,
+      "location": "从化校区 计算机楼 201",
+      "teacher": "潘美莲",
+      "id": "course-16",
+      "scheduleNote": "调课：原第 19 周周三第 5–6 节，提前到第 10 周周三第 7–8 节；地点仍为计算机楼 201。本周原有第 5–6 节照常。"
     }
   ],
   "semesterStart": "2026-09-07",
@@ -257,6 +281,21 @@ window.SCHEDULE_DATA = {
       "start": "2026-11-09",
       "end": "2027-01-24",
       "text": "周一美术加课 18:00–20:15；暂排第 10–20 周，结束周及教师、教室待确认。"
+    },
+    {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "text": "调课：本周三生成式AI数字图像处理第 5–6 节照常，另加第 7–8 节（计算机楼 201）；本周五党史第 1–2 节移至第 18 周周四第 5–6 节。"
+    },
+    {
+      "start": "2027-01-04",
+      "end": "2027-01-10",
+      "text": "调课：本周四第 5–6 节补上原第 10 周周五的党史课，地点为实训一号楼 101。"
+    },
+    {
+      "start": "2027-01-11",
+      "end": "2027-01-17",
+      "text": "调课：本周三生成式AI数字图像处理第 5–6 节已提前至第 10 周周三第 7–8 节，本周不再安排该次课程。"
     }
   ]
 };
