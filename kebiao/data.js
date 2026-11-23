@@ -3,7 +3,7 @@ window.SCHEDULE_DATA = {
   "department": "信息工程学院",
   "className": "普高2026级数字媒体技术1班",
   "semester": "2026—2027 学年 · 第一学期",
-  "sourceUpdated": "2026-11-16",
+  "sourceUpdated": "2026-11-23",
   "courses": [
     {
       "name": "美术基础",
@@ -64,7 +64,7 @@ window.SCHEDULE_DATA = {
       "name": "国家安全教育",
       "day": 4,
       "weekStart": 11,
-      "weekEnd": 14,
+      "weekEnd": 11,
       "start": 11,
       "end": 12,
       "location": "从化校区 综合教学楼 402",
@@ -235,6 +235,41 @@ window.SCHEDULE_DATA = {
       "teacher": "郭青",
       "id": "course-20",
       "scheduleNote": "按 2026 年 11 月 16 日数媒技术 1 班调课通知：原第 19 周周五第 1–3 节，提前至第 14 周周一第 9–11 节，综合教学楼 708。"
+    },
+    {
+      "name": "国家安全教育",
+      "day": 4,
+      "weekStart": 13,
+      "weekEnd": 14,
+      "start": 11,
+      "end": 12,
+      "location": "从化校区 综合教学楼 402",
+      "teacher": "余德维",
+      "id": "course-21"
+    },
+    {
+      "name": "国家安全教育",
+      "day": 4,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "start": 11,
+      "end": 12,
+      "location": "从化校区 综合教学楼 404",
+      "teacher": "余德维",
+      "id": "course-22",
+      "scheduleNote": "按 11 月 23–29 日教务周课表：11 月 26 日周四第 11–12 节，教室为综合教学楼 404。本次仅更正第 12 周。"
+    },
+    {
+      "name": "智能编程基础与实践",
+      "day": 4,
+      "weekStart": 12,
+      "weekEnd": 12,
+      "start": 5,
+      "end": 8,
+      "location": "从化校区 计算机楼 201",
+      "teacher": "吴杰楠",
+      "id": "course-23",
+      "scheduleNote": "按 11 月 23–29 日教务周课表新增本次安排：11 月 26 日周四第 5–8 节，计算机楼 201；本周三原有第 1–4 节照常。其他周次暂按原课表。"
     }
   ],
   "semesterStart": "2026-09-07",
@@ -359,6 +394,11 @@ window.SCHEDULE_DATA = {
       "start": "2027-01-11",
       "end": "2027-01-24",
       "text": "美术调课（1 班）：第 19、20 周周二及周五第 1–3 节已提前至第 11–14 周周一晚课，不再重复安排。"
+    },
+    {
+      "start": "2026-11-23",
+      "end": "2026-11-29",
+      "text": "第 12 周教务课表更新：周四智能编程基础与实践第 5–8 节（14:10–17:05），计算机楼 201；周四国家安全教育第 11–12 节改在综合教学楼 404。"
     }
   ]
 };
